@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Configurações
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+SERVICE_NAME="fan.service"
+BINARY_NAME="fan"
+
+# Verifica se os arquivos existem
+if [[ ! -f "$SCRIPT_DIR/$BINARY_NAME" ]]; then
+    echo "Erro: Arquivo $BINARY_NAME não encontrado em $SCRIPT_DIR!"
+    exit 1
+fi
+
+if [[ ! -f "$SCRIPT_DIR/$SERVICE_NAME" ]]; then
+    echo "Erro: Arquivo $SERVICE_NAME não encontrado em $SCRIPT_DIR!"
+    exit 1
+fi
+
+# Move e configura o binário
+sudo cp "$SCRIPT_DIR/$BINARY_NAME" /usr/local/bin/
+sudo chmod +x /usr/local/bin/$BINARY_NAME
+
+# Move e configura o serviço
+sudo cp "$SCRIPT_DIR/$SERVICE_NAME" /etc/systemd/system/
+
+# Recarrega e inicia o serviço
+sudo systemctl daemon-reload
+sudo systemctl enable $SERVICE_NAME
+sudo systemctl start $SERVICE_NAME
+
+echo "Instalação concluída! Verifique o status com: systemctl status $SERVICE_NAME"

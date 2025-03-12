@@ -1,0 +1,12 @@
+[Unit]
+Description=Script para controlar o ventilador com base na temperatura
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/local/bin/fan
+Restart=always
+StandardOutput=append:/var/log/fan.log
+StandardError=append:/var/log/fan_error.log
+
+[Install]
+WantedBy=multi-user.target
