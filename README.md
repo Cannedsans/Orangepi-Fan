@@ -50,8 +50,3 @@ Run the installation script:
 
     ./install
 
-The fan should now operate correctly on your Orange Pi Zero 3.
-Notes
-* Verify all connections before powering on to avoid short circuits
-* Confirm the correct GPI0 (PC10) is used
-* The resistor on the base of the transistor is required to avoid damaging the GPIO
