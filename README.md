@@ -2,40 +2,56 @@
 
 ## Requirements
 
-- **1x 5V 40mm Fan**  
-- **1x NPN Transistor** (recommended: BC338)  
+- 1x 5V 40mm Fan  
+- 1x NPN Transistor (recommended: BC338)  
+- 1x 1kΩ Resistor (required for the transistor base)
 
 ## Electrical Connection
 
-1. **Transistor Connections**:
-   - **Collector**: Connect to the **GND** of the fan.
-   - **Emitter**: Connect to the **GND** of the Orange Pi Zero 3.
-   - **Base**: Connect to the **PC10** pin (as per the official Orange Pi pinout).
+### 1. Transistor Setup (NPN)
 
-2. **Power Connections**:
-   - Connect the **5V** pin of the fan to the **5V** pin of the Orange Pi.  
-     - It is recommended to use the **5V - IN/OUT** pin, as it is directly connected to the power source to avoid any instability.
+A 1kΩ resistor is required between the GPIO (PC10) and the base of the transistor to limit current and protect the Orange Pi.
 
+Diagram:
+
+Orange Pi (PC10) ───[1kΩ resistor]───► B (Base)  
+                                        │  
+                                     [NPN]  
+                                        │  
+      Fan (–) ─────────────────────────► C (Collector)  
+                                        │  
+Orange Pi GND ────────────────────────► E (Emitter)  
+
+Fan (+) ──────────────────────────────► 5V (from Orange Pi)
+
+- Collector (C) → Connect to the negative (-) wire of the fan  
+- Emitter (E) → Connect to the GND of the Orange Pi  
+- Base (B) → Connect to PC10 through a 1kΩ resistor
+
+### 2. Power Connections
+
+- Fan (+) → Connect to the 5V pin of the Orange Pi  
+  - It is recommended to use the 5V IN/OUT pin, as it is directly connected to the power source
+
+Reference: [https://github.com/debajyotisarkarhome/PWM-Based-RPi-Fan](https://github.com/debajyotisarkarhome/PWM-Based-RPi-Fan)
+
+Pinout for reference:  
 ![Orange Pi Zero 3 Pinout](https://lh4.googleusercontent.com/proxy/njXWQMmeFZxeZAsP1BXV1Niu8hTMe-to3ukp4wKiUOax4-u0lBHouYH4FHbZMWmMWS9VhVvS6P7HTfuYJ4590b4HlhGuLuX7Hnwg-HPpAAcSZw)
 
 ## Installation
 
-Once the electrical connections are complete, install the fan control service using the installation script.
+After completing the wiring, install the fan control service using the script provided.
 
-1. **Grant Execution Permissions**:
+1. Grant execution permissions:
    ```bash
    sudo chmod +x ./install
-   ```
 
-2. **Run the Installation Script**:
-   ```bash
-   ./install
-   ```
+Run the installation script:
 
-After completing these steps, the fan will be fully operational on your Orange Pi Zero 3.
+    ./install
 
----
-
-### Notes:
-- Ensure all connections are secure to avoid short circuits or damage to the board.
-- Double-check the pinout to confirm the correct GPIO pin (PC10) is used.
+The fan should now operate correctly on your Orange Pi Zero 3.
+Notes
+* Verify all connections before powering on to avoid short circuits
+* Confirm the correct GPI0 (PC10) is used
+* The resistor on the base of the transistor is required to avoid damaging the GPIO
